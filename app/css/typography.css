@@ -1,0 +1,90 @@
+@theme {
+  /* Font Sizes Heading */
+  --text-h1: 2rem; /* 32px */
+  --text-h2: 1.75rem; /* 28px */
+  --text-h3: 1.625rem; /* 26px */
+  --text-h4: 1.5rem; /* 24px */
+  --text-h5: 1.375rem; /* 22px */
+  --text-h6: 1.25rem; /* 20px */
+
+  /* Font Sizles Title */
+  --text-title-18: 1.125rem; /* 18px */
+  --text-title-16: 1rem; /* 16px */
+  --text-title-14: 0.875rem; /* 14px */
+  --text-title-12: 0.75rem; /* 12px */
+  --text-title-11: 0.6875rem; /* 11px */
+  --text-title-10: 0.625rem; /* 10px */
+  --text-title-9: 0.5625rem; /* 9px */
+  --text-title-8: 0.5rem; /* 8px */
+
+  /* Font Sizles Body */
+  --text-body-18: 1.125rem; /* 18px */
+  --text-body-16: 1rem; /* 16px */
+  --text-body-14: 0.875rem; /* 14px */
+  --text-body-12: 0.75rem; /* 12px */
+  --text-body-10: 0.6875rem; /* 11px */
+  --text-body-10: 0.625rem; /* 10px */
+
+  /* Font Sizles Button */
+}
+
+@layer base {
+  :root {
+    @apply font-[var(--font-inter)] text-gray-90;
+  }
+
+  body {
+    @apply font-[var(--font-inter)] text-gray-90;
+  }
+
+  p {
+    @apply text-gray-90 font-normal;
+  }
+
+  h1 {
+    @apply text-secondary-100 font-semibold
+    text-h1;
+  }
+
+  h4 {
+    @apply text-secondary-100 font-semibold
+    text-h4;
+  }
+
+  /* Navigation Typography */
+  .nav-link {
+    @apply text-secondary-100
+    text-title-14;
+  }
+
+  /* Event Typography */
+
+  .event-category {
+    @apply text-secondary-100 text-title-11;
+  }
+
+  .event-title {
+    @apply text-gray-100
+    text-title-14 font-semibold;
+  }
+
+  .event-location {
+    @apply text-gray-80
+    text-title-12;
+  }
+
+  .event-date {
+    @apply text-gray-100
+    text-title-12;
+  }
+
+  .event-time-schedule {
+    @apply text-secondary-100
+    text-title-12 font-semibold;
+  }
+
+  .event-time-schedule-description {
+    @apply text-gray-90
+    text-title-14;
+  }
+}

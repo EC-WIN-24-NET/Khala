@@ -1,0 +1,20 @@
+@layer utilities {
+  .nav-link-inactive-hover {
+    @apply text-secondary-100 
+        before:content-['']
+        before:absolute
+        before:top-0
+        before:h-full
+        before:w-2.5 
+        before:bg-red-500
+        before:opacity-0
+        before:group-hover:opacity-100
+        before:group-hover:bg-primary-100
+        before:transition-opacity
+        before:duration-150
+        before:ease-in-out
+        before:left-0
+        before:rounded-r-md 
+        before:-z-10;
+  }
+}

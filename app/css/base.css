@@ -1,0 +1,44 @@
+@theme {
+  /* Primary Color Purpel */
+  --color-primary-30: #fdedfe;
+  --color-primary-40: #fce2fe;
+  --color-primary-50: #fcd3fe;
+  --color-primary-90: #f589fa;
+  --color-primary-100: #f26cf9;
+
+  /* Secondary Color Blue */
+  --color-secondary-50: #d3daf9;
+  --color-secondary-60: #abb4dd;
+  --color-secondary-70: #707dbf;
+  --color-secondary-90: #5562a2;
+  --color-secondary-100: #37437d;
+  --color-secondary-110: #1c2346;
+
+  /* Yellow */
+  --color-yellow-90: #ffefc3;
+  --color-yellow-100: #ffca39;
+
+  /* Gray */
+  --color-gray-10: #ffffff;
+  --color-gray-20: #f7f7f7;
+  --color-gray-30: #ededed;
+  --color-gray-40: #e0e0e1;
+  --color-gray-50: #c3c3c4;
+  --color-gray-60: #9f9fa1;
+  --color-gray-70: #777779;
+  --color-gray-80: #636365;
+  --color-gray-90: #434345;
+  --color-gray-100: #1e1e20;
+
+  /* Cool Gray */
+  --color-cool-gray-10: #eeefff;
+  --color-cool-gray-20: #e4e5f5;
+  --color-cool-gray-30: #dddeed;
+  --color-cool-gray-40: #d1d2e0;
+  --color-cool-gray-50: #b0b1bd;
+  --color-cool-gray-60: #8f8f99;
+  --color-cool-gray-70: #72737a;
+  --color-cool-gray-80: #56565c;
+  --color-cool-gray-90: #39393d;
+  --color-cool-gray-100: #131314;
+}

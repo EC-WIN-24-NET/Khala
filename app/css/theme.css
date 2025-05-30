@@ -1,0 +1,18 @@
+.skeleton-container {
+  @apply mobile:flex-col xxs:flex-col sm:flex-col 
+  lg:flex-row md:flex-col m-auto max-w-7xl flex 
+  items-stretch min-h-screen;
+}
+
+.main-content-container {
+  @apply pb-0750 flex-grow flex gap-0750 
+  md:flex-col xxs:flex-col lg:flex-row rounded-2xl;
+}
+
+.content-container {
+  @apply rounded-2xl mb-0750;
+}
+
+.event-image-container {
+  @apply relative w-full md:w-full lg:w-full h-64 md:h-full lg:h-full xxs:h-full;
+}
