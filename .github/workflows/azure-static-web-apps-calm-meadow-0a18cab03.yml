@@ -15,24 +15,48 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
-      - name: Build And Deploy
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 # Specify your pnpm version, or let it pick from .npmrc/.packageManager in your repo
+
+      - name: Setup Node.js and cache pnpm store
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Or the Node.js version your project requires
+          cache: 'pnpm'
+          # Optional: Define path to pnpm-lock.yaml for more precise cache invalidation
+          # cache-dependency-path: '**/pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile # Ensures exact dependencies from lockfile are installed
+        # If your package.json is not at the root, specify working-directory:
+        # working-directory: ./your-app-folder
+
+      - name: Build application
+        run: pnpm run build
+        # If your package.json is not at the root, specify working-directory:
+        # working-directory: ./your-app-folder
+
+      - name: Upload to Azure Static Web Apps
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_MEADOW_0A18CAB03 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app structure. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "" # Built app content directory - optional
-          app_build_command: "pnpm install && pnpm run build" # Add or modify this line
-          # api_build_command: "" # Optional: Build command for Azure Functions
+          ###### Repository/Build Configurations ######
+          app_location: "/" # Root of your app source code
+          api_location: "" # Not specified in your case
+          output_location: ".next" # For Next.js, this is typically the .next folder.
+                                   # If you use `next export`, change this to "out".
+          skip_app_build: true # This tells SWA to skip Oryx build and use the artifacts from output_location
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
