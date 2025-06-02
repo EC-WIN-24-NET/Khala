@@ -1,5 +1,4 @@
 import EventImage from "@/app/components/images/eventImage";
-import CalenderIcon from "@icons/CalendarDots.svg";
 import {
 	Card,
 	CardHeader,
@@ -7,8 +6,8 @@ import {
 	CardDescription,
 	CardContent,
 } from "@/components/ui/card";
-import Icon from "@/app/components/icons/icon";
 import type { DisplayEventCardType } from "./types";
+import Image from "next/image";
 
 function DisplayEventCard({
 	title,
@@ -40,11 +39,14 @@ function DisplayEventCard({
 					{/* Add mt-auto to push CardContent to the bottom if cards have varying content height */}
 					<CardContent className="flex items-center justify-between pt-0 pb-4 mt-auto">
 						<div className="flex items-center">
-							<Icon
-								iconComponent={CalenderIcon}
-								size={16}
+							<Image
+								src="/icons/CalendarDots.svg"
+								alt="Calender Icon"
+								width={16}
+								height={16}
 								className="text-gray-50"
 							/>
+
 							<p className="event-date ml-04375">{date}</p>
 						</div>
 						<div className="event-price">{price}</div>
