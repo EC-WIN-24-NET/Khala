@@ -16,20 +16,20 @@ jobs:
     name: Build and Deploy Job
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
           lfs: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
-          version: 8 # Specify your pnpm version, or let it pick from .npmrc/.packageManager in your repo
+          version: 22.15.1
 
       - name: Setup Node.js and cache pnpm store
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # Or the Node.js version your project requires
+          node-version: '22.15.1' # Or the Node.js version your project requires
           cache: 'pnpm'
           # Optional: Define path to pnpm-lock.yaml for more precise cache invalidation
           # cache-dependency-path: '**/pnpm-lock.yaml'
@@ -70,3 +70,8 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_MEADOW_0A18CAB03 }}
           action: "close"
+          app_location: "/"
+          api_location: "" 
+          output_location: ".next" 
+                                 
+
