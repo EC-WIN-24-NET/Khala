@@ -8,9 +8,12 @@ function EventImage({
 	fill,
 	className,
 	sizes,
+	width,
+	height,
+	priority = true,
 }: EventImageType) {
-	return (
-		<div className="event-image-container">
+	if (fill) {
+		return (
 			<Image
 				src={image}
 				alt={alt}
@@ -18,8 +21,22 @@ function EventImage({
 				fill={fill}
 				className={className}
 				sizes={sizes}
+				priority={priority}
 			/>
-		</div>
+		);
+	}
+
+	return (
+		<Image
+			src={image}
+			priority={priority}
+			alt={alt}
+			title={title}
+			width={width}
+			height={height}
+			className={className}
+			sizes={sizes}
+		/>
 	);
 }
 

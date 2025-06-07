@@ -1,65 +1,60 @@
-import EventCalender from "@/app/components/calendar/eventCalender";
-import DisplayEventCard from "@/app/components/cards/displayEventCard";
+"use client";
+import { memo } from "react";
+import EventList from "@components/events/EventList";
 import HeaderTitle from "@/app/components/layout/header/HeaderTitle";
-import starcraftImage from "@images/starcraft-event.jpg";
+import EventCalender from "@/app/components/calendar/eventCalender";
 
-export default function DashBoard() {
+/**
+ * `EventsPage` component.
+ *
+ * This component serves as the main page for displaying events. It is structured
+ * with a header section and a main content area. The main content area is
+ * designed to be responsive, showing a list of events and an event calendar
+ * side-by-side on larger screens (lg and up), and stacking them on smaller screens.
+ *
+ * The component is memoized using `React.memo` for performance optimization,
+ * preventing re-renders if props do not change.
+ *
+ * @returns {JSX.Element} The rendered events page, including a header,
+ * an event list, and an event calendar.
+ *
+ * @example
+ * ```tsx
+ * // Typically used as a page component in a routing setup
+ * <Route path="/events" element={<EventsPage />} />
+ * ```
+ */
+export default memo(function EventsPage() {
 	return (
 		<>
-			{/* Dynamic Content Start */}
+			{/* Header container */}
 			<div className="content-container bg-gray-20">
 				<div
 					className="w-full xxs:nax-w-full sm:max-w-full 
-							md:max-w-full lg:max-w-8/12"
+                                        md:max-w-full lg:max-w-12/12"
 				>
 					<HeaderTitle />
 				</div>
 			</div>
 
-			<div className="main-content-container bg-gray-20">
-				{/* Event Card, will later use an Loop map from RestAPI Service */}
-				<div className="content-container xl-max-w-8/12 lg:max-w-8/12 xl:max-w-9/12 w-full">
-					<p className="text-title-16 text-gray-100 font-semibold px-1500 pt-1500">
-						All Events
-					</p>
-					<div className="flex w-full flex-col md:flex-row flex-wrap p-3">
-						<DisplayEventCard
-							title={"Starcraft Event"}
-							location={"SkyDome Stadium, Toronto, ON"}
-							date={"12/12/2022"}
-							price={"$100"}
-							image={starcraftImage}
-							alt={"Starcraft Event"}
-						/>
-						<DisplayEventCard
-							title={"Starcraft Event"}
-							location={"SkyDome Stadium, Toronto, ON"}
-							date={"12/12/2022"}
-							price={"$100"}
-							image={starcraftImage}
-							alt={"Starcraft Event"}
-						/>
-						<DisplayEventCard
-							title={"Starcraft Event"}
-							location={"SkyDome Stadium, Toronto, ON"}
-							date={"12/12/2022"}
-							price={"$100"}
-							image={starcraftImage}
-							alt={"Starcraft Event"}
-						/>
-					</div>
+			{/* Main content container for side-by-side layout on larger screens */}
+			<div className="main-content-container bg-gray-20 flex flex-wrap lg:flex-nowrap gap-4">
+				<div className="content-container w-full lg:w-9/12">
+					<EventList
+						apiEndpoint="/api/events"
+						title="All Events"
+						count={4}
+						lgColClass="lg:grid-cols-3"
+					/>
 				</div>
-				<div
-					className="w-full xxs:nax-w-full sm:max-w-full sm:items-center
-                            md:max-w-full lg:max-w-4/12 xl:max-w-3/12"
-				>
-					<h3 className="text-title-16 text-gray-100 font-semibold  py-1375">
+				{/* EventCalender container: Adjust width e.g., lg:w-3/12 */}
+				<div className="w-full lg:w-3/12">
+					<h3 className="text-title-16 text-gray-100 font-semibold py-1375">
 						Upcoming Event
 					</h3>
 					<EventCalender />
 				</div>
 			</div>
-			{/* Dynamic Content End */}
 		</>
 	);
-}
+});

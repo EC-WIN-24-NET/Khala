@@ -24,7 +24,11 @@
       "@css/*": ["./app/css/*"],
       "@icons/*": ["./public/icons/*"],
       "@images/*": ["./public/images/*"],
-      "@components/*": ["./app/components/*"]
+      "@components/*": ["./app/components/*"],
+      "@lib/*": ["./lib/*"],
+      "@hooks/*": ["./app/hooks/*"],
+      "@api/*": ["./app/api/*"],
+      "@chadComponents/*": ["./components/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

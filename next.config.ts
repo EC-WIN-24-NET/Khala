@@ -51,7 +51,16 @@ const nextConfig: NextConfig = {
 
 		return config;
 	},
-	// ... any other existing configurations
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "ecwin24netblob.blob.core.windows.net",
+				port: "",
+				pathname: "/ec-ventixe/images/**",
+			},
+		],
+	},
 };
 
 export default nextConfig;
