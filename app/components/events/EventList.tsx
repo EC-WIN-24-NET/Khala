@@ -47,7 +47,7 @@ interface EventListProps {
 const EventList = memo(function EventList({
 	apiEndpoint,
 	title = "Events",
-	count = 4,
+	count,
 	lgColClass = "lg:grid-cols-4",
 	className,
 }: EventListProps) {

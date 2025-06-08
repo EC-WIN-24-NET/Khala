@@ -16,7 +16,12 @@ export default memo(function EventsPage() {
 					<HeaderTitle />
 				</div>
 			</div>
-			<EventList apiEndpoint="/api/events" title="All Events" count={4} />
+			<EventList
+				apiEndpoint="/api/events"
+				title="All Events"
+				count={4}
+				className="rounded-t-2xl"
+			/>
 		</>
 	);
 });

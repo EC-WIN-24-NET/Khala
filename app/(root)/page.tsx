@@ -39,7 +39,7 @@ export default memo(function EventsPage() {
 
 			{/* Main content container for side-by-side layout on larger screens */}
 			<div className="main-content-container bg-gray-20 flex flex-wrap lg:flex-nowrap gap-4">
-				<div className="content-container w-full lg:w-9/12">
+				<div className="content-container w-full lg:w-12/12">
 					<EventList
 						apiEndpoint="/api/events"
 						title="All Events"

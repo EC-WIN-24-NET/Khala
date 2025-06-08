@@ -2,7 +2,6 @@ import type { EventLocationData } from "@/app/api/types";
 import type { EventLocationFetcherProps } from "@/app/components/cards/types";
 import TextSkeleton from "@/app/components/skeletons/TextSkeleton";
 import { swrFetcher } from "@/lib/api/swrFetcher";
-import Link from "next/link";
 import { memo } from "react";
 import useSWR from "swr";
 
@@ -38,7 +37,7 @@ export default memo(function CardLocationEvent({
 		return (
 			<>
 				<div className="w-full h-full">
-					<p className="event-location"> Could not load location</p>
+					<span className="event-location"> Could not load location</span>
 				</div>
 			</>
 		);
@@ -47,22 +46,11 @@ export default memo(function CardLocationEvent({
 	// 3. Handle the Success state
 	// If we get here, we have data to display!
 
-	// Construct the Google Maps URL
-	const { streetName, city, state } = apiResponse;
-	const googleMapsSearchQuery = encodeURIComponent(
-		`${streetName}, ${city}, ${state}`,
-	);
-	const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${googleMapsSearchQuery}`;
-
 	return (
 		<>
-			<div className="w-full h-full hover:underline">
-				<Link href={googleMapsUrl} target="_blank">
-					<p className="event-location ">
-						{apiResponse.streetName} , {apiResponse.city} , {apiResponse.state}
-					</p>
-				</Link>
-			</div>
+			<span className="event-location ">
+				{apiResponse.streetName} , {apiResponse.city} , {apiResponse.state}
+			</span>
 		</>
 	);
 });

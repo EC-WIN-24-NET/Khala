@@ -11,10 +11,14 @@ import { useRouter } from "next/navigation";
 import { useState, use, memo } from "react";
 import useSWR from "swr";
 import { swrFetcher } from "@lib/api/swrFetcher"; // Assuming you have this
-import type { EventData } from "@api/types"; // Assuming a suitable type
+import type { EventData, EventPackage } from "@api/types"; // Ensure EventPackage is imported
 import EventDisplayCardSkeleton from "@components/skeletons/EventDisplayCard";
 import CardImageEvent from "@/app/components/cards/event/CardImageEvent";
 import CardLocationEvent from "@/app/components/cards/event/CardLocationEvent";
+import Link from "next/link";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import PackageButton from "@/app/components/button/PackageButton";
+import EmailForm from "@/app/components/form/EmailForm";
 
 // Skeleton component for the modal content
 const EventModalSkeleton = () => (
@@ -38,12 +42,16 @@ const EventModal = memo(function EventModal({
 	const eventId = params.eventId;
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(true);
+	const [showEmailForm, setShowEmailForm] = useState(false);
+	const [selectedPackage, setSelectedPackage] = useState<EventPackage | null>(
+		null,
+	); // State for selected package
 
 	// Construct the API endpoint for fetching a single event
 	const apiEndpoint = eventId ? `/api/events/${eventId}` : null; // Adjust if your API route is different
 
 	const {
-		data: eventData,
+		data: responseData,
 		error,
 		isLoading,
 	} = useSWR<EventData>(apiEndpoint, swrFetcher, {
@@ -51,13 +59,28 @@ const EventModal = memo(function EventModal({
 		// revalidateOnFocus: false,
 	});
 
+	// Got some helped from Google Gemini to solve the Email form and Button
 	const handleOpenChange = (open: boolean) => {
 		if (!open) {
 			setIsOpen(false);
+			setShowEmailForm(false);
 			setTimeout(() => {
 				router.back();
-			}, 300); // Delay for animation
+			}, 300);
 		}
+	};
+
+	// Function to handle showing the email form
+	const handleShowEmailForm = (pkg: EventPackage) => {
+		// Accept the package
+		setSelectedPackage(pkg); // Store the selected package
+		setShowEmailForm(true);
+	};
+
+	// Function to handle going back from the email form
+	const handleGoBackFromEmailForm = () => {
+		setShowEmailForm(false);
+		setSelectedPackage(null); // Clear selected package
 	};
 
 	// Early return if eventId is not available (should ideally be caught by routing)
@@ -77,12 +100,12 @@ const EventModal = memo(function EventModal({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={handleOpenChange}>
-			<DialogContent className="max-w-sm sm:max-w-[425px] md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
+			<DialogContent className="max-w-sm sm:max-w-[425px] md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl max-h-[calc(100%-2rem)]">
 				{isLoading && <EventModalSkeleton />}
 				{error &&
 					!isLoading &&
-					!eventData &&
-					typeof eventData === "undefined" && (
+					!responseData &&
+					typeof responseData === "undefined" && (
 						<>
 							<DialogHeader>
 								<DialogTitle>Error</DialogTitle>
@@ -92,7 +115,7 @@ const EventModal = memo(function EventModal({
 							</DialogDescription>
 						</>
 					)}
-				{!isLoading && !error && !eventData && (
+				{!isLoading && !error && !responseData && (
 					<>
 						<DialogHeader>
 							<DialogTitle>Event Not Found</DialogTitle>
@@ -102,24 +125,24 @@ const EventModal = memo(function EventModal({
 						</DialogDescription>
 					</>
 				)}
-				{!isLoading && !error && eventData && (
-					<>
+				{!isLoading && !error && responseData && (
+					<div className="flex flex-col h-full gap-4 ">
 						<DialogHeader>
 							<div className="pt-1000">
 								<CardImageEvent
-									imageId={eventData.imageId}
-									altText={eventData.title}
+									imageId={responseData.imageId}
+									altText={responseData.title}
 									titleText={""}
 									priority={true}
 								/>
 							</div>
 							<div className="flex content-between justify-between pt-0500">
 								<DialogTitle className="">
-									{eventData.title || "Event Details"}
+									{responseData.title || "Event Details"}
 								</DialogTitle>
-								{eventData.dateTime && (
+								{responseData.dateTime && (
 									<DialogDescription>
-										{new Date(eventData.dateTime).toLocaleDateString(
+										{new Date(responseData.dateTime).toLocaleDateString(
 											undefined,
 											{
 												year: "numeric",
@@ -131,28 +154,40 @@ const EventModal = memo(function EventModal({
 								)}
 							</div>
 						</DialogHeader>
-						<DialogDescription className="event-location">
+						<DialogDescription className="event-location hover:underline cursor-pointer shrink-0">
 							{/* Location API Component */}
-							<CardLocationEvent eventLocationId={eventData.location} />
+							<Link
+								href={`https://www.google.com/maps/search/?api=1&query=${responseData.location}`}
+								target="_blank"
+								rel="noreferrer"
+							>
+								<CardLocationEvent eventLocationId={responseData.location} />
+							</Link>
 						</DialogDescription>
-						<DialogDescription className="event-description whitespace-pre-line">
-							{/* Use a more detailed description if available, e.g., eventData.detailedDescription */}
-							{eventData.description || "No description available."}
-						</DialogDescription>
-						<div className="py-4">
-							{/* Here you can add more components that might have their own API calls */}
-							{/* For example, a component to show attendees, or related events */}
-							{/* <EventAttendees eventId={eventData.id} /> */}
-							{/* <RelatedEvents categoryId={eventData.categoryId} /> */}
-							<p>
-								Price:{" "}
-								{typeof eventData.price === "number"
-									? `$${eventData.price.toFixed(2)}`
-									: eventData.price || "Not specified"}
-							</p>
-							{/* Render more event details here based on eventData */}
-						</div>
-					</>
+						<ScrollArea className="rounded-md border p-4 h-100vh xl:max-h-23750 lg:max-h-15000 md:max-h-9375 sm:max-h-3750 xxs:max-h-3750  ">
+							<DialogDescription className="event-description whitespace-pre-line pb-1000 ">
+								{/* Use a more detailed description if available, e.g., eventData.detailedDescription */}
+								{responseData.description || "No description available."}
+							</DialogDescription>
+							{showEmailForm && selectedPackage ? ( // Ensure selectedPackage is available
+								<EmailForm
+									onGoBack={handleGoBackFromEmailForm}
+									selectedPackageTitle={selectedPackage.title}
+									eventId={eventId}
+									eventName={responseData.title}
+									eventPrice={responseData.price}
+								/>
+							) : (
+								responseData.packages?.map((packageData) => (
+									<PackageButton
+										key={packageData.id}
+										eventPackage={packageData}
+										onShowEmailForm={() => handleShowEmailForm(packageData)}
+									/>
+								))
+							)}
+						</ScrollArea>
+					</div>
 				)}
 			</DialogContent>
 		</Dialog>

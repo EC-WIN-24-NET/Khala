@@ -2,6 +2,7 @@
 import type { RestError } from "@azure/core-rest-pipeline";
 
 export interface apiResponseProp<T> {
+	success: unknown;
 	isLoading: boolean;
 	error: Error | null;
 	message?: string | null;
@@ -16,6 +17,17 @@ export interface EventData {
 	dateTime: string;
 	price: number;
 	description?: string;
+	packages?: EventPackage[];
+	packageCount?: number;
+}
+
+export interface EventPackage {
+	id: number;
+	title: string;
+	description: string;
+	perks: string;
+	price: number;
+	currency: string;
 }
 
 export interface EventImageData {
