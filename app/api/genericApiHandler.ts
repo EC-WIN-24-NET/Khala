@@ -136,7 +136,7 @@ export async function genericApiHandler<T, MappedData = T>(
 
 	try {
 		// 3. --------- The Fetch Request ---------
-		await sleep(15000);
+		await sleep(1500);
 
 		// We're using the native `fetch` API, which is built into modern JavaScript environments.
 		// Next.js extends `fetch` with special powers, like server-side caching. We use that instead of Axios
