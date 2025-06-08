@@ -5,14 +5,6 @@ import { genericApiHandler, type HandlerConfig } from "@api/genericApiHandler";
 // For simplicity, let's assume SubmissionResult can be adapted or a new simple type is used.
 import type { SubmissionResult } from "@/app/components/form/types"; // Or a more specific MailSendResult type
 
-// Define the expected request body for this /api/mail/send endpoint
-interface EmailSendRequest {
-	to: string;
-	subject: string;
-	htmlBody: string;
-	plainTextBody: string;
-}
-
 // Define the expected raw response from your APIM's /Mail/send endpoint
 interface ApimMailSendActualResponse {
 	messageId?: string;
