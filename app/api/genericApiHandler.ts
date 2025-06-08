@@ -76,6 +76,31 @@ export interface HandlerConfig<T, MappedData = T> {
 // A simple function that creates a delay using a Promise.
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Function to handle retrying fetch requests in case of 403 Forbidden errors
+// Becouse of how APIM handles rate limiting and SAS tokens expiration
+async function fetchWithRetry(
+	url: string,
+	options: RequestInit,
+	maxRetries = 1,
+	retryCount = 0,
+): Promise<Response> {
+	const response = await fetch(url, options);
+
+	// If the response is 403 and we haven't reached the max retries, retry
+	// If we get an 403, we wait for 15 seconds and retry so the SAS token is refreshed
+	// This regarding using Azure Blob Storage
+	if (response.status === 403 && retryCount < maxRetries) {
+		console.warn(
+			`Received 403 from ${url}, attempting retry ${retryCount + 1} of ${maxRetries}...`,
+		);
+		// Optional: wait for a short period before retrying
+		await new Promise((resolve) => setTimeout(resolve, 3000));
+		return fetchWithRetry(url, options, maxRetries, retryCount + 1);
+	}
+
+	return response;
+}
+
 export async function genericApiHandler<T, MappedData = T>(
 	req: NextRequest,
 	config: HandlerConfig<T, MappedData>,
@@ -111,11 +136,11 @@ export async function genericApiHandler<T, MappedData = T>(
 
 	try {
 		// 3. --------- The Fetch Request ---------
-		await sleep(1500);
+		await sleep(15000);
 
 		// We're using the native `fetch` API, which is built into modern JavaScript environments.
 		// Next.js extends `fetch` with special powers, like server-side caching. We use that instead of Axios
-		const response = await fetch(targetUrl, {
+		const response = await fetchWithRetry(targetUrl, {
 			method: req.method,
 			headers: {
 				// We securely add our secret API key to the request headers.

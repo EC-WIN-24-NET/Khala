@@ -1,10 +1,12 @@
 export interface DisplayEventCardType {
+	eventId: string;
 	title: string;
 	date: string;
 	price: number | string;
 	alt: string;
 	imageId: string | null;
 	locationId: string | null;
+	className?: string;
 }
 
 export interface EventImageFetcherProps {

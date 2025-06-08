@@ -87,4 +87,9 @@
     @apply text-gray-90
     text-title-14;
   }
+
+  .event-description {
+    @apply text-gray-90
+    text-title-14 font-normal;
+  }
 }

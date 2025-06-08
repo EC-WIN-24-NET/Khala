@@ -10,6 +10,7 @@ export default memo(function CardImageEvent({
 	imageId,
 	altText,
 	sizes,
+	className,
 }: EventImageFetcherProps) {
 	const shouldFetch =
 		// Checking that we dont have null or invalid image Id
@@ -32,7 +33,7 @@ export default memo(function CardImageEvent({
 	// 1. Handle the Loading state
 	if (isLoading && shouldFetch) {
 		return (
-			<div className="relative h-[194px] rounded-t-2xl overflow-hidden">
+			<div className="relative h-[194px]  overflow-hidden">
 				<ImageSkeleton />
 			</div>
 		);
@@ -43,13 +44,13 @@ export default memo(function CardImageEvent({
 	if (error || !apiResponse || !apiResponse.path || !shouldFetch) {
 		return (
 			<>
-				<div className="relative h-[194px] rounded-t-2xl overflow-hidden">
+				<div className="relative h-[194px]  overflow-hidden">
 					<EventImage
 						image={"/images/Image.svg"}
 						alt={`Placeholder for ${altText}`}
 						title={"Image Placeholder"}
 						fill={true}
-						className={"object-cover w-full h-full rounded-t-2xl"}
+						className={`${className} object-cover w-full h-full `}
 						sizes={
 							sizes ??
 							"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -65,13 +66,13 @@ export default memo(function CardImageEvent({
 
 	return (
 		<>
-			<div className="relative h-[194px] rounded-t-2xl overflow-hidden">
+			<div className="relative h-[194px]  overflow-hidden">
 				<EventImage
 					image={apiResponse.path}
 					alt={apiResponse.altText}
 					title={apiResponse.name}
 					fill={true}
-					className={"object-cover w-full h-full rounded-t-2xl"}
+					className={`${className} object-cover w-full h-full`}
 					sizes={
 						sizes ?? "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 					}

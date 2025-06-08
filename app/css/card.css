@@ -1,0 +1,9 @@
+.card-hover {
+  @apply transition-all duration-300 ease-in-out 
+  hover:scale-105 hover:shadow-md hover:cursor-pointer
+  hover:bg-primary-30 hover:border-secondary-90;
+}
+
+.preserve-lines {
+  white-space: pre-line;
+}

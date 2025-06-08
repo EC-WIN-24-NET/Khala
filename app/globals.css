@@ -5,7 +5,8 @@
 @import './css/sizes.css';
 @import './css/typography.css';
 @import './css/button.css';
-@import "tw-animate-css";
+@import './css/card.css';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 

@@ -41,6 +41,7 @@ interface EventListProps {
 	title?: string;
 	count?: number;
 	lgColClass?: string;
+	className?: string;
 }
 
 const EventList = memo(function EventList({
@@ -48,6 +49,7 @@ const EventList = memo(function EventList({
 	title = "Events",
 	count = 4,
 	lgColClass = "lg:grid-cols-4",
+	className,
 }: EventListProps) {
 	const {
 		data: events,
@@ -86,7 +88,7 @@ const EventList = memo(function EventList({
 				<p className="text-title-16 text-gray-100 font-semibold px-1500 pt-1500">
 					{title}
 				</p>
-				<div className={`grid grid-cols-1 md:grid-cols-2 ${lgColClass} gap-4`}>
+				<div className={`grid grid-cols-1 md:grid-cols-2 ${lgColClass} gap-4 `}>
 					{displayedEvents.map((event: EventData) => {
 						let formattedDate = "Date not available";
 						if (event.dateTime) {
@@ -107,12 +109,14 @@ const EventList = memo(function EventList({
 						}
 
 						const displayProps = {
+							eventId: event.id,
 							title: event.title,
 							date: formattedDate,
 							price: event.price,
 							alt: event.title,
 							imageId: event.imageId,
 							locationId: event.location,
+							className: className,
 						};
 						return <DisplayEventCard key={event.id} {...displayProps} />;
 					})}

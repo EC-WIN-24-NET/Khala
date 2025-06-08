@@ -15,6 +15,7 @@ export interface EventData {
 	location: string;
 	dateTime: string;
 	price: number;
+	description?: string;
 }
 
 export interface EventImageData {

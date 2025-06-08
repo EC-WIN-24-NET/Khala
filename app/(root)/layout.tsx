@@ -23,31 +23,38 @@ export const metadata: Metadata = {
  */
 export const revalidate = 3600;
 
+// https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes#defaultjs
 export default function RootLayout({
 	children,
-}: Readonly<{
+	modal, // Crucial: This prop receives the content from the @modal slot
+}: {
 	children: React.ReactNode;
-}>) {
+	modal: React.ReactNode; // Crucial: Type for the modal prop
+}) {
 	return (
-		<>
-			<div className="skeleton-container">
-				<div className="lg:w-2/12 xl:w-2/12 rounded-2xl bg-cool-gray-10 flex flex-col ">
-					<Logo />
-					<Navigation />
-				</div>
+		<html lang="en">
+			{/* We are supressing Hydration warning becouse I have Clickup Extension that interfers with Body tag */}
+			<body suppressContentEditableWarning>
+				<div className="skeleton-container">
+					<div className="lg:w-2/12 xl:w-2/12 rounded-2xl bg-cool-gray-10 flex flex-col ">
+						<Logo />
+						<Navigation />
+					</div>
 
-				<div className="flex flex-1 flex-col px-3 ">
-					{/* Dynamic Content Start */}
-					<MainContent>{children}</MainContent>
-					{/* Dynamic Content End */}
-
-					<div className="mt-auto content-container bg-gray-20 px-1625 py-1375">
-						<p className="text-title-12 text-gray-70 font-semibold">
-							Copyright © 2025 The Greate Zealot
-						</p>
+					<div className="flex flex-1 flex-col px-3 ">
+						{/* Dynamic Content Start */}
+						<MainContent>{children}</MainContent>
+						{modal}
+						{/* This is where the intercepted route's modal will render */}
+						{/* Dynamic Content End */}
+						<div className="mt-auto content-container bg-gray-20 px-1625 py-1375">
+							<p className="text-title-12 text-gray-70 font-semibold">
+								Copyright © 2025 The Greate Zealot
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
-		</>
+			</body>
+		</html>
 	);
 }

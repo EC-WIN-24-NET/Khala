@@ -45,6 +45,7 @@ export default memo(function EventsPage() {
 						title="All Events"
 						count={4}
 						lgColClass="lg:grid-cols-3"
+						className="rounded-t-2xl"
 					/>
 				</div>
 				{/* EventCalender container: Adjust width e.g., lg:w-3/12 */}
