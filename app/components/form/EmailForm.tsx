@@ -182,7 +182,7 @@ function EmailForm({
 						className="flex-1 h-3750 bg-secondary-100 hover:bg-primary-90 cursor-pointer"
 						disabled={isLoading}
 					>
-						{isLoading ? "Sending Inquiry..." : "Send Inquiry"}
+						{isLoading ? "Signing up..." : "Signing me up!"}
 					</Button>
 					<Button
 						type="button"
