@@ -19,8 +19,8 @@ export async function GET(
 		// The path on the external APIM service, using the imageId from the URL
 		endpointPath: `/cloakvision/api/Image/${imageId}`,
 		allowedMethod: "GET",
-		// Cache the result on the server.
-		revalidate: 60, // Cache for 1 minute, adjust as needed
+		// Disabled Cashe becouse of SAS URL is not being regenerated
+		revalidate: 0,
 	};
 
 	// The genericApiHandler will fetch data from the constructed endpointPath.
